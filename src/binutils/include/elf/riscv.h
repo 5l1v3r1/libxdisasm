@@ -1,7 +1,7 @@
 /* RISC-V ELF support for BFD.
-   Copyright 2011-2015 Free Software Foundation, Inc.
+   Copyright (C) 2011-2019 Free Software Foundation, Inc.
 
-   Contributed by Andrw Waterman <waterman@cs.berkeley.edu> at UC Berkeley.
+   Contributed by Andrew Waterman (andrew@sifive.com).
    Based on MIPS ELF support for BFD, by Ian Lance Taylor.
 
    This file is part of BFD, the Binary File Descriptor library.
@@ -79,6 +79,15 @@ START_RELOC_NUMBERS (elf_riscv_reloc_type)
   RELOC_NUMBER (R_RISCV_RVC_LUI, 46)
   RELOC_NUMBER (R_RISCV_GPREL_I, 47)
   RELOC_NUMBER (R_RISCV_GPREL_S, 48)
+  RELOC_NUMBER (R_RISCV_TPREL_I, 49)
+  RELOC_NUMBER (R_RISCV_TPREL_S, 50)
+  RELOC_NUMBER (R_RISCV_RELAX, 51)
+  RELOC_NUMBER (R_RISCV_SUB6, 52)
+  RELOC_NUMBER (R_RISCV_SET6, 53)
+  RELOC_NUMBER (R_RISCV_SET8, 54)
+  RELOC_NUMBER (R_RISCV_SET16, 55)
+  RELOC_NUMBER (R_RISCV_SET32, 56)
+  RELOC_NUMBER (R_RISCV_32_PCREL, 57)
 END_RELOC_NUMBERS (R_RISCV_max)
 
 /* Processor specific flags for the ELF header e_flags field.  */
@@ -86,7 +95,41 @@ END_RELOC_NUMBERS (R_RISCV_max)
 /* File may contain compressed instructions.  */
 #define EF_RISCV_RVC 0x0001
 
-/* File uses the soft-float calling convention.  */
-#define EF_RISCV_SOFT_FLOAT 0x0002
+/* Which floating-point ABI a file uses.  */
+#define EF_RISCV_FLOAT_ABI 0x0006
+
+/* File uses the soft-float ABI.  */
+#define EF_RISCV_FLOAT_ABI_SOFT 0x0000
+
+/* File uses the single-float ABI.  */
+#define EF_RISCV_FLOAT_ABI_SINGLE 0x0002
+
+/* File uses the double-float ABI.  */
+#define EF_RISCV_FLOAT_ABI_DOUBLE 0x0004
+
+/* File uses the quad-float ABI.  */
+#define EF_RISCV_FLOAT_ABI_QUAD 0x0006
+
+/* File uses the 32E base integer instruction.  */
+#define EF_RISCV_RVE 0x0008
+
+/* The name of the global pointer symbol.  */
+#define RISCV_GP_SYMBOL "__global_pointer$"
+
+/* Additional section types.  */
+#define SHT_RISCV_ATTRIBUTES   0x70000003  /* Section holds attributes.  */
+
+/* Object attributes.  */
+
+enum
+{
+  /* 0-3 are generic.  */
+  Tag_RISCV_stack_align = 4,
+  Tag_RISCV_arch = 5,
+  Tag_RISCV_unaligned_access = 6,
+  Tag_RISCV_priv_spec = 8,
+  Tag_RISCV_priv_spec_minor = 10,
+  Tag_RISCV_priv_spec_revision = 12
+};
 
 #endif /* _ELF_RISCV_H */
